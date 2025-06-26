@@ -88,6 +88,8 @@ export const addAddress = async (req: Request, res: Response): Promise<any> => {
 
         await newAddress.save()
         await User.findByIdAndUpdate(user._id, { $push: { address: newAddress._id } })
+
+        // Delete for update redis
         redis.del(`user_address:${userId}`)
         return res.status(200).json({ success: true, message: "Address Added Successfully", address: newAddress })
     } catch (error: any) {
