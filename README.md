@@ -20,7 +20,7 @@ export const GetUserAddress = async (req: Request, res: Response): Promise<any> 
         const userId = req.user;
 
         // Check Redis cache first :--- Phale Check krna hai kuyki agar cache hai phale se to ye aa jayesa aur sab niche ka code ruk jayega
-        const cachedAddress = await redis.get(`user:add:${userId}`);
+        const cachedAddress = await redis.get(`user_address:${userId}`);
         if (cachedAddress) {
             return res.status(200).json({
                 success: true,
@@ -41,7 +41,7 @@ export const GetUserAddress = async (req: Request, res: Response): Promise<any> 
         }
 
         // Fire-and-forget caching : ---- Agar cach nhi hai phale se to yeha pe aake check kr lega
-        redis.set(`user:add:${userId}`, JSON.stringify(address), "EX", 3600)
+        redis.set(`user_address:${userId}`, JSON.stringify(address), "EX", 3600)
 
         return res.status(200).json({
             success: true,
