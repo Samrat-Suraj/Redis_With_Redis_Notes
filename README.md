@@ -55,3 +55,41 @@ export const GetUserAddress = async (req: Request, res: Response): Promise<any> 
     }
 };
 ```
+
+
+3.controller but update redish when add new address(redis.del(`user_address:${userId}`))
+
+```ts
+
+export const addAddress = async (req: Request, res: Response): Promise<any> => {
+    try {
+        const userId = req.user
+        const { pinCode, state, district, city, addressType, landmark } = req.body
+        if (!pinCode || !state || !district || !city || !addressType || !landmark) {
+            return res.status(200).json({ success: true, message: "All fields are required" })
+        }
+        const user = await User.findById(userId)
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" })
+        }
+
+        const newAddress = new Address({
+            userId: userId,
+            pinCode,
+            state,
+            district,
+            city,
+            addressType,
+            landmark,
+        })
+
+        await newAddress.save()
+        await User.findByIdAndUpdate(user._id, { $push: { address: newAddress._id } })
+        redis.del(`user_address:${userId}`)
+        return res.status(200).json({ success: true, message: "Address Added Successfully", address: newAddress })
+    } catch (error: any) {
+        console.log("Error In addAddress controller", error.message)
+        return res.status(500).json({ success: false, message: "Internal server errror" })
+    }
+}
+```
