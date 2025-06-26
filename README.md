@@ -13,7 +13,7 @@ redis.on("connect" , ()=>{
 })
 ```
 
-3. controller
+2. controller
 ```ts
 export const GetUserAddress = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -57,7 +57,9 @@ export const GetUserAddress = async (req: Request, res: Response): Promise<any> 
 ```
 
 
-3.controller but update redish when add new address(redis.del(`user_address:${userId}`))
+
+---
+3.controller but update redish when add new address(```redis.del(`user_address:${userId}`)```)
 
 ```ts
 
