@@ -12,6 +12,7 @@ redis.on("connect" , ()=>{
     console.log("Redis connected successfully")
 })
 ```
+---
 
 2. controller
 ```ts
