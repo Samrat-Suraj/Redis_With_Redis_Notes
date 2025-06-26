@@ -3,9 +3,9 @@
 1. server.js
 ```ts
 export const redis = new Redis({
-    host : 'redis-11352.c8.us-east-1-2.ec2.redns.redis-cloud.com',
+    host : '',
     port : 11352,
-    password : "jfVqMjvmRzcUAIDaMXbEBrQ3VQTu24Eo"
+    password : ""
 })
 
 redis.on("connect" , ()=>{
